@@ -10,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css"/>
+    <script src="script.js"></script>
 </head>
 <body>
     <div class="main">
@@ -123,6 +124,21 @@
                     <p class="card-info">Your daily updates of the most played tracks....</p>
                 </div>
             </div>
+
+                    <h2>Mood Playlists 🎧</h2>
+            <section id="mood-playlist">
+            <div class="mood-options">
+                <button onclick="showMood('happy')">😊 Happy</button>
+                <button onclick="showMood('sad')">😢 Sad</button>
+                <button onclick="showMood('energetic')">⚡ Energetic</button>
+                <button onclick="showMood('chill')">😌 Chill</button>
+            </div>
+
+            <div id="playlist-container" class="cards-container">
+                <!-- Mood-based cards will appear here -->
+            </div>
+            </section>
+
            <div class="footer">
             <div class="line"></div>
            </div>
@@ -134,7 +150,7 @@
                     <div class="song-title">Daylight</div>
                     <div class="song-artist">David Kushner</div>
                 </div>
-                <img src="./homework assets/album_icon1.png" class="left-icon1">
+                <img src="./homework assets/album_icon1.png" class="left-icon1" id="heart-icon">
                 <img src="./homework assets/album_icon2.png" class="left-icon2">
             </div>
             
@@ -164,8 +180,53 @@
                 <input type="range" min="0" max="100" class="volume-bar" step="1" >
                 
             </div>
-            
         </div>
     </div>
+
+
+    <script>
+    // Heart Icon Becomes red
+    const heartIcon = document.getElementById('heart-icon');
+  
+    let liked = false; // State
+  
+    heartIcon.addEventListener('click', () => {
+      liked = !liked;
+      heartIcon.src = liked
+        ? './homework assets/red_heart-icon.png' // your red heart version
+        : './homework assets/album_icon1.png';   // default grey heart
+    });
+</script>
+  
+
+<script>
+    const progressBar = document.querySelector('.progress-bar');
+    const currTimeEl = document.querySelector('.curr-time');
+    const totalTimeEl = document.querySelector('.total-time');
+  
+    // Convert "MM:SS" to seconds
+    function timeToSeconds(time) {
+      const [mins, secs] = time.split(':').map(Number);
+      return mins * 60 + secs;
+    }
+  
+    // Convert seconds to "MM:SS"
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+  
+    // Set max based on total time
+    const totalSeconds = timeToSeconds(totalTimeEl.textContent);
+    progressBar.max = totalSeconds;
+  
+    // Update current time on slider input
+    progressBar.addEventListener('input', () => {
+      const currentSeconds = progressBar.value;
+      currTimeEl.textContent = formatTime(currentSeconds);
+    });
+</script>
+
 </body>
 </html>
